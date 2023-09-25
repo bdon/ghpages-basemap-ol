@@ -1,0 +1,50 @@
+<html>
+    <head>
+        <title>OL Basemap in Github Pages</title>
+        <meta charset="utf-8"/>
+        <script src="https://cdn.jsdelivr.net/npm/ol@v7.3.0/dist/ol.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@v7.3.0/ol.css">
+        <script src="https://unpkg.com/ol-pmtiles@0.2.0/dist/olpmtiles.js"></script>
+        <script src="https://unpkg.com/protomaps-themes-base@2.0.0-alpha.0/dist/index.js"></script>
+        <script src="https://unpkg.com/ol-mapbox-style@12.0.0/dist/olms.js"></script>
+        <style>
+            body, #map {
+                height:100vh;
+                margin: 0;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="map"></div>
+        <script type="text/javascript">
+          const layer = new ol.layer.VectorTile({
+            declutter: true,
+            source: new olpmtiles.PMTilesVectorSource({
+              url: "brussels.pmtiles",
+              attributions: ["© OpenStreetMap"]
+            }),
+            style: null
+          });
+
+          const style = olms.stylefunction(
+            layer,
+            {
+              version: "8",
+              layers: protomaps_themes_base.default("protomaps", "light"),
+              sources: { protomaps: { type: "vector" } },
+            },
+            "protomaps",
+          );
+
+          ol.proj.useGeographic();
+          const map = new ol.Map({
+            layers: [layer],
+            target: 'map',
+            view: new ol.View({
+              center: [4.3482724,50.8423669],
+              zoom: 7
+            }),
+          });
+        </script>
+    </body>
+</html>
